@@ -24,6 +24,29 @@ python analysis.py
 ## Results
 Results are written to `results.json` (and a bar chart to `figures/`) when the script runs.
 
+## Results (latest run)
+
+On the scikit-learn digits benchmark (final average accuracy over 10 classes on the same 360-sample held-out test split, 3 seeds), a standard sequentially fine-tuned MLP reached 19%, while the same MLP with 30 replayed exemplars per old class reached 87% (±1.5%).
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.1861 |
+| baseline_score_std | 0 |
+| improved_score | 0.8685 |
+| improved_score_std | 0.01544 |
+| improvement | 0.6824 |
+| baseline_f1 | 0.06514 |
+| improved_f1 | 0.873 |
+| baseline_first_task_acc | 0 |
+| improved_first_task_acc | 0.7917 |
+| baseline_forgetting | 0.9919 |
+| improved_forgetting | 0.1537 |
+| n_seeds | 3 |
+
+Run on 2026-10-20. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Naive stand-in for the paper's hierarchical model, not its method. Hyper-parameters fixed a priori (no tuning, so no CV selection was needed). Forgetting and per-task accuracies are computed on the training split to keep the test set single-use. The improved model sees more samples per task (replay) with the same epoch count, so compute is not perfectly matched. Std is over 3 seeds (population std). Single small dataset; results are indicative only.
+
 ## Reference
 
 This project is motivated by the following paper:
