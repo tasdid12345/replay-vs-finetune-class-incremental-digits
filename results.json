@@ -1,0 +1,32 @@
+{
+  "question": "Does a small replay buffer of old-class exemplars let a task-agnostic MLP keep earlier classes better than naive sequential fine-tuning on a class-incremental digits benchmark?",
+  "method": "5 class-incremental tasks (2 digit classes each), task-agnostic evaluation over 10 outputs; 80/20 stratified split; baseline MLP fine-tuned sequentially vs. same MLP with 30 replayed exemplars per old class; seeds 42-44.",
+  "dataset": {
+    "name": "scikit-learn digits (load_digits)",
+    "source_url": "https://scikit-learn.org/stable/datasets/toy_dataset.html",
+    "n_rows": 1797,
+    "n_train": 1437,
+    "n_test": 360,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "final average accuracy over all 10 classes on held-out test split",
+  "higher_is_better": true,
+  "baseline": "MLPClassifier (1 hidden layer, 128 units), sequentially fine-tuned on each task's data only",
+  "improved": "Same MLP plus a replay buffer of 30 exemplars per previously seen class, mixed into each new task's training data",
+  "metrics": {
+    "baseline_score": 0.18611111111111112,
+    "baseline_score_std": 0.0,
+    "improved_score": 0.8685185185185186,
+    "improved_score_std": 0.015438270370863946,
+    "improvement": 0.6824074074074075,
+    "baseline_f1": 0.06513916898894101,
+    "improved_f1": 0.8729993317030532,
+    "baseline_first_task_acc": 0.0,
+    "improved_first_task_acc": 0.7916666666666666,
+    "baseline_forgetting": 0.9919220945083014,
+    "improved_forgetting": 0.15374161877394635,
+    "n_seeds": 3
+  },
+  "notes": "Naive stand-in for the paper's hierarchical model, not its method. Hyper-parameters fixed a priori (no tuning, so no CV selection was needed). Forgetting and per-task accuracies are computed on the training split to keep the test set single-use. The improved model sees more samples per task (replay) with the same epoch count, so compute is not perfectly matched. Std is over 3 seeds (population std). Single small dataset; results are indicative only."
+}
